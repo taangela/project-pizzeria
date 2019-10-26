@@ -98,6 +98,8 @@
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
       console.log(thisProduct.priceElem);
       //cena łączna
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+      console.log(thisProduct.imageWrapper);
     }
 
     initAccordion() {
@@ -171,9 +173,21 @@
           } else if (!optionSelected && option.default) {
             price -= option.price;
           }
-          console.log(price);
+          const imgsSelected = thisProduct.imageWrapper.querySelectorAll('.' + paramId + '-' + optionId);
+          console.log(imgsSelected)
+          if (optionSelected) {
+            for (let img of imgsSelected) {
+              img.classList.add(classNames.menuProduct.imageVisible);
+            }
+          } else {
+            for (let img of imgsSelected) {
+              img.classList.remove(classNames.menuProduct.imageVisible);
+
+            }
+          }
         }
       }
+
       //set the contents of thisProduct.priceElem to be the value of variable price 
       thisProduct.priceElem.innerHTML = price;
       console.log(thisProduct.priceElem);
