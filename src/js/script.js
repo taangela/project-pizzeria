@@ -60,7 +60,10 @@
       thisProduct.data = data;
 
       thisProduct.renderInMenu();
+      thisProduct.getElements();
       thisProduct.initAccordion();
+      thisProduct.initOrderForm();
+      thisProduct.processOrder();
       console.log('new Product: ', thisProduct);
     }
     renderInMenu() {
@@ -76,11 +79,32 @@
       /*add element to menu*/
       menuContainer.appendChild(thisProduct.element);
     }
+
+    getElements() {
+      const thisProduct = this;
+
+      thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      //nagłówek
+      console.log(thisProduct.accordionTrigger);
+      thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
+      //cały formularz, to co się rozwija
+      console.log(thisProduct.form);
+      thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
+      //wszystkie  opcje
+      console.log(thisProduct.formInputs);
+      thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
+      //guzik dodania do ceny
+      console.log(thisProduct.cartButton);
+      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+      console.log(thisProduct.priceElem);
+      //cena łączna
+    }
+
     initAccordion() {
       const thisProduct = this;
 
       /* find the clickable trigger (the element that should react to clicking) */
-      const clickElement = thisProduct.element.querySelector(select.menuProduct.clickable);
+      const clickElement = thisProduct.accordionTrigger;
       /* START: click event listener to trigger */
       clickElement.addEventListener('click', function(event) {
         /* prevent default action for event */
@@ -105,37 +129,86 @@
         /* END: click event listener to trigger */
       });
     }
-  }
 
-    const app = {
-      initMenu: function() {
-        const thisApp = this;
+    initOrderForm() {
+      const thisProduct = this;
+      console.log('initOrderForm');
+      thisProduct.form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
 
-        console.log('thisApp.data: ', thisApp.data);
+      for (let input of thisProduct.formInputs) {
+        input.addEventListener('change', function() {
+          thisProduct.processOrder();
+        });
+      }
 
-        for (let productData in thisApp.data.products) {
-          new Product(productData, thisApp.data.products[productData]);
+      thisProduct.cartButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
+    }
+
+    processOrder() {
+      const thisProduct = this;
+      console.log('processOrder');
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      console.log('formData', formData);
+      let price = thisProduct.data.price;
+      console.log('price: ', price);
+      console.log(thisProduct.data.params);
+      for (let paramId in thisProduct.data.params) {
+        const param = thisProduct.data.params[paramId];
+        console.log('param: ', param);
+        for (let optionId in param.options) {
+          const option = param.options[optionId]
+          console.log('option: ', option);
+          console.log(option.price);
+          const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
+          if (optionSelected && !option.default) {
+            price += option.price;
+          } else if (!optionSelected && option.default) {
+            price -= option.price;
+          }
+          console.log(price);
         }
-      },
-
-      initData: function() {
-        const thisApp = this;
-
-        thisApp.data = dataSource;
-      },
-
-      init: function() {
-        const thisApp = this;
-        console.log('*** App starting ***');
-        console.log('thisApp:', thisApp);
-        console.log('classNames:', classNames);
-        console.log('settings:', settings);
-        console.log('templates:', templates);
-
-        thisApp.initData();
-        thisApp.initMenu();
-      },
-    };
-
-    app.init();
+      }
+      //set the contents of thisProduct.priceElem to be the value of variable price 
+      thisProduct.priceElem.innerHTML = price;
+      console.log(thisProduct.priceElem);
+    }
   }
+
+  const app = {
+    initMenu: function() {
+      const thisApp = this;
+
+      console.log('thisApp.data: ', thisApp.data);
+
+      for (let productData in thisApp.data.products) {
+        new Product(productData, thisApp.data.products[productData]);
+      }
+    },
+
+    initData: function() {
+      const thisApp = this;
+
+      thisApp.data = dataSource;
+    },
+
+    init: function() {
+      const thisApp = this;
+      console.log('*** App starting ***');
+      console.log('thisApp:', thisApp);
+      console.log('classNames:', classNames);
+      console.log('settings:', settings);
+      console.log('templates:', templates);
+
+      thisApp.initData();
+      thisApp.initMenu();
+    },
+  };
+
+  app.init();
+}
