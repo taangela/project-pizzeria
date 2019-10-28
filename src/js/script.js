@@ -180,33 +180,34 @@
       }
 
       //set the contents of thisProduct.priceElem to be the value of variable price 
-      price *=thisProduct.amountWidget.value;
+      price *= thisProduct.amountWidget.value;
       thisProduct.priceElem.innerHTML = price;
       console.log(thisProduct.priceElem);
     }
 
-    initAmountWidget(){
+    initAmountWidget() {
       const thisProduct = this;
 
       thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
-      thisProduct.amountWidgetElem.addEventListener('updated',function(){
+      thisProduct.amountWidgetElem.addEventListener('updated', function() {
         thisProduct.processOrder();
       });
     }
   }
 
-  class AmountWidget{
-    constructor(element){
+  class AmountWidget {
+    constructor(element) {
       const thisWidget = this;
 
       thisWidget.getElements(element);
+      thisWidget.value = settings.amountWidget.defaultValue;
       thisWidget.setValue(thisWidget.input.value);
       thisWidget.initActions(thisWidget.input.value);
       console.log('AmountWidget: ', thisWidget);
-      console.log('constructor arguments: ',element);
+      console.log('constructor arguments: ', element);
     }
 
-    getElements(element){
+    getElements(element) {
       const thisWidget = this;
 
       thisWidget.element = element;
@@ -215,31 +216,35 @@
       thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
     }
 
-    setValue(value){
+    setValue(value) {
       const thisWidget = this;
 
       const newValue = parseInt(value);
 
       /* TODO: Add validation*/
+      if (newValue != thisWidget.value && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax) {
 
-      thisWidget.value = newValue;
-      thisWidget.announce();
+        thisWidget.value = newValue;
+        thisWidget.announce();
+      }
+
+
       thisWidget.input.value = thisWidget.value;
       console.log(thisWidget.input.value);
     }
 
-    initActions(){
-      const thisWidget =this;
+    initActions() {
+      const thisWidget = this;
 
-      thisWidget.input.addEventListener('change',function(){
-       thisWidget.setValue(thisWidget.input.value);
+      thisWidget.input.addEventListener('change', function() {
+        thisWidget.setValue(thisWidget.input.value);
       });
-      thisWidget.linkDecrease.addEventListener('click',function(event){
+      thisWidget.linkDecrease.addEventListener('click', function(event) {
         event.preventDefault();
         thisWidget.setValue(thisWidget.value - 1);
         console.log(thisWidget.value);
       });
-      thisWidget.linkIncrease.addEventListener('click',function(event){
+      thisWidget.linkIncrease.addEventListener('click', function(event) {
         event.preventDefault();
         thisWidget.setValue(thisWidget.value + 1);
         console.log(thisWidget.value);
@@ -247,7 +252,7 @@
 
     }
 
-    announce(){
+    announce() {
       const thisWidget = this;
 
       const event = new Event('updated');
