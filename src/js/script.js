@@ -164,7 +164,7 @@
         const param = thisProduct.data.params[paramId];
         console.log('param: ', param);
         for (let optionId in param.options) {
-          const option = param.options[optionId]
+          const option = param.options[optionId];
           console.log('option: ', option);
           console.log(option.price);
           const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
@@ -174,7 +174,7 @@
             price -= option.price;
           }
           const imgsSelected = thisProduct.imageWrapper.querySelectorAll('.' + paramId + '-' + optionId);
-          console.log(imgsSelected)
+          console.log(imgsSelected);
           if (optionSelected) {
             for (let img of imgsSelected) {
               img.classList.add(classNames.menuProduct.imageVisible);
