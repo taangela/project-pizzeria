@@ -180,6 +180,7 @@
       }
 
       //set the contents of thisProduct.priceElem to be the value of variable price 
+      price *=thisProduct.amountWidget.value;
       thisProduct.priceElem.innerHTML = price;
       console.log(thisProduct.priceElem);
     }
@@ -188,6 +189,9 @@
       const thisProduct = this;
 
       thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+      thisProduct.amountWidgetElem.addEventListener('updated',function(){
+        thisProduct.processOrder();
+      });
     }
   }
 
@@ -219,6 +223,7 @@
       /* TODO: Add validation*/
 
       thisWidget.value = newValue;
+      thisWidget.announce();
       thisWidget.input.value = thisWidget.value;
       console.log(thisWidget.input.value);
     }
@@ -240,6 +245,13 @@
         console.log(thisWidget.value);
       });
 
+    }
+
+    announce(){
+      const thisWidget = this;
+
+      const event = new Event('updated');
+      thisWidget.element.dispatchEvent(event);
     }
   }
 
