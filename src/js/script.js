@@ -31,6 +31,9 @@
         linkIncrease: 'a[href="#more"]',
       },
     },
+    cart: {
+      toggleTrigger: '.cart__summary',
+    }
   };
 
   const classNames = {
@@ -38,6 +41,9 @@
       wrapperActive: 'active',
       imageVisible: 'active',
     },
+    cart: {
+      wrapperActive: 'active',
+    }
   };
 
   const settings = {
@@ -65,7 +71,7 @@
       thisProduct.initOrderForm();
       thisProduct.initAmountWidget();
       thisProduct.processOrder();
-      console.log('new Product: ', thisProduct);
+      //console.log('new Product: ', thisProduct);
     }
     renderInMenu() {
       const thisProduct = this;
@@ -79,6 +85,7 @@
       const menuContainer = document.querySelector(select.containerOf.menu);
       /*add element to menu*/
       menuContainer.appendChild(thisProduct.element);
+      //console.log(thisProduct.element);
     }
 
     getElements() {
@@ -110,7 +117,7 @@
         //console.log(thisProduct.element.classList);
         /* START LOOP: for each active product */
         for (let activeProduct of activeProducts) {
-          console.log(activeProduct);
+          //console.log(activeProduct);
           /* START: if the active product isn't the element of thisProduct */
           if (activeProduct != thisProduct.element) {
             /* remove class active for the active product */
@@ -182,7 +189,7 @@
       //set the contents of thisProduct.priceElem to be the value of variable price 
       price *= thisProduct.amountWidget.value;
       thisProduct.priceElem.innerHTML = price;
-      console.log(thisProduct.priceElem);
+      //console.log(thisProduct.priceElem);
     }
 
     initAmountWidget() {
@@ -203,8 +210,8 @@
       thisWidget.value = settings.amountWidget.defaultValue;
       thisWidget.setValue(thisWidget.input.value);
       thisWidget.initActions(thisWidget.input.value);
-      console.log('AmountWidget: ', thisWidget);
-      console.log('constructor arguments: ', element);
+      //console.log('AmountWidget: ', thisWidget);
+      //console.log('constructor arguments: ', element);
     }
 
     getElements(element) {
@@ -230,7 +237,7 @@
 
 
       thisWidget.input.value = thisWidget.value;
-      console.log(thisWidget.input.value);
+      //console.log(thisWidget.input.value);
     }
 
     initActions() {
@@ -242,12 +249,12 @@
       thisWidget.linkDecrease.addEventListener('click', function(event) {
         event.preventDefault();
         thisWidget.setValue(thisWidget.value - 1);
-        console.log(thisWidget.value);
+        //console.log(thisWidget.value);
       });
       thisWidget.linkIncrease.addEventListener('click', function(event) {
         event.preventDefault();
         thisWidget.setValue(thisWidget.value + 1);
-        console.log(thisWidget.value);
+        //console.log(thisWidget.value);
       });
 
     }
@@ -257,6 +264,40 @@
 
       const event = new Event('updated');
       thisWidget.element.dispatchEvent(event);
+    }
+  }
+
+  class Cart {
+    constructor(element) {
+      const thisCart = this;
+
+      thisCart.products = [];
+
+      thisCart.getElements(element);
+      thisCart.initActions();
+
+      console.log('new Cart', thisCart);
+    }
+
+    getElements(element) {
+      const thisCart = this;
+
+      thisCart.dom = {};
+
+      thisCart.dom.wrapper = element;
+      thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
+      //console.log(thisCart.dom.wrapper);
+      //console.log(thisCart.dom.toggleTrigger);
+      //console.log(select.cart.toggleTrigger);
+    }
+
+    initActions() {
+      const thisCart = this;
+
+      thisCart.dom.toggleTrigger.addEventListener('click', function() {
+        thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
+      });
+
     }
   }
 
@@ -277,17 +318,26 @@
       thisApp.data = dataSource;
     },
 
+    initCart: function() {
+      const thisApp = this;
+
+      const cartElem = document.querySelector(select.containerOf.cart);
+      thisApp.cart = new Cart(cartElem);
+    },
+
     init: function() {
       const thisApp = this;
-      console.log('*** App starting ***');
-      console.log('thisApp:', thisApp);
-      console.log('classNames:', classNames);
-      console.log('settings:', settings);
-      console.log('templates:', templates);
+      //console.log('*** App starting ***');
+      //console.log('thisApp:', thisApp);
+      //console.log('classNames:', classNames);
+      //console.log('settings:', settings);
+      //console.log('templates:', templates);
 
       thisApp.initData();
       thisApp.initMenu();
+      thisApp.initCart();
     },
+
   };
 
   app.init();
