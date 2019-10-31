@@ -372,10 +372,16 @@
         thisCart.subtotalPrice += product.price;
         thisCart.totalNumber += product.amount;
       }
+      if (thisCart.subtotalPrice == 0) {
+        thisCart.deliveryFee = 0;
+      }
       thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee;
+
+      // zmienić delivery na zero jeżeli subtotal price = 0
       console.log('total number', thisCart.totalNumber);
       console.log('subtotal price', thisCart.subtotalPrice);
       console.log('total price', thisCart.totalPrice);
+      console.log('deliveryFee', thisCart.deliveryFee);
 
       for (let key of thisCart.renderTotalsKeys) { //iterujemy po kolekcji
         for (let elem of thisCart.dom[key]) { // iterujemy po każdym elmencie z kolekcji
@@ -449,7 +455,6 @@
       });
 
       thisCartProduct.dom.wrapper.dispatchEvent(event);
-      console.log('działam');
     }
 
     initActions() {
