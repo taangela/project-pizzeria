@@ -298,7 +298,7 @@
 
       const event = new CustomEvent('updated', {
         bubbles: true
-        //właściwość ten event po wykonaniu będzie przekazany jego rodzicowi itd.
+        //właściwość, ten event po wykonaniu będzie przekazany jego rodzicowi itd.
       });
       thisWidget.element.dispatchEvent(event); //dodaje event 
     }
@@ -367,7 +367,6 @@
         totalPrice: thisCart.totalPrice,
         totalNumber: thisCart.deliveryFee,
         subtotalPrice: thisCart.subtotalPrice,
-        totalPrice: thisCart.totalPrice,
         deliveryFee: thisCart.deliveryFee,
         products: [],
       };
@@ -404,6 +403,7 @@
       const generatedDOM = utils.createDOMFromHTML(generatedHTML);
       thisCart.dom.productList.appendChild(generatedDOM);
 
+
       thisCart.products.push(new CartProduct(menuProduct, generatedDOM)); //jednocześnie tworzy instancję klasy oraz dodaje ją do tablicy thisCart.products
       thisCart.update();
       //console.log('thisCart.products', thisCart.products);
@@ -423,10 +423,10 @@
       if (thisCart.subtotalPrice == 0) {
         thisCart.deliveryFee = 0;
         // jeżeli dodamy dwa produkty do koszyka to deliveryfee = 0;
-      };
+      }
       if (thisCart.totalNumber > 0) {
         thisCart.deliveryFee = 20;
-      };
+      }
       console.log(thisCart.products);
       thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee;
       console.log('total number', thisCart.totalNumber);
