@@ -125,3 +125,19 @@
   }
 
 }
+
+@media (max-width: 767px) {
+  .product {
+    padding: 30px 35px;
+  }
+  .product__icon{
+    position: static;
+  }
+  .product__header{
+    display: inline;
+  }
+  .product__name{
+    display: flex;
+    justify-content: space-between;
+  }
+}
