@@ -130,13 +130,16 @@
   .product {
     padding: 30px 35px;
   }
-  .product__icon{
+  
+  .product__icon {
     position: static;
   }
-  .product__header{
+  
+  .product__header {
     display: inline;
   }
-  .product__name{
+  
+  .product__name {
     display: flex;
     justify-content: space-between;
   }

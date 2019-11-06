@@ -1,5 +1,5 @@
-import { select } from './settings';
-import AmountWidget from './components/AmountWidget.js';
+import { select } from '../settings.js';
+import AmountWidget from './AmountWidget.js';
 //import Product from './components/Product.js';
 
 

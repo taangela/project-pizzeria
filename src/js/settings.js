@@ -74,6 +74,6 @@ export const settings = {
 };
 
 export const templates = {
-  menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
-  cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML),
+  menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML), // eslint-disable-line
+  cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML), // eslint-disable-line
 };
