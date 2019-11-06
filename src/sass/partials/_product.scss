@@ -142,5 +142,16 @@
   .product__name {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+  }
+  .product__order {
+    width: 45%;
+  }
+}
+
+@media (max-width: 500px) {
+  .product__images {
+    display: none;
+    width: 70%;
   }
 }
