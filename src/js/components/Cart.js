@@ -1,5 +1,5 @@
 import { settings, select, classNames, templates } from '../settings.js';
-import utils from '../utils.js';
+import {utils} from '../utils.js';
 import CartProduct from './CartProduct.js';
 
 class Cart {
@@ -10,8 +10,6 @@ class Cart {
     thisCart.deliveryFee = settings.cart.defaultDeliveryFee;
     thisCart.getElements(element);
     thisCart.initActions();
-
-    console.log('new Cart', thisCart);
   }
 
   getElements(element) {
