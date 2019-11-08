@@ -34,8 +34,8 @@ export class DatePicker extends BaseWidget {
     flatpickr(thisWidget.dom.input, options); // eslint-disable-line
   }
 
-  parseValue(newValue) {
-    return newValue;
+  parseValue(value) {
+    return value;
   }
 
   isValid() {
