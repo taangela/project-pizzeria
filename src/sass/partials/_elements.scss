@@ -4,8 +4,16 @@
   @include btn($color-dark, $color-light, $color-dark);
 }
 
+.btn-primary:active {
+  background-color: #717171;
+}
+
 .btn-secondary {
   @include btn($color-main, $color-light, $color-main);
+}
+
+.btn-secondary:active {
+  background-color: #717171;
 }
 
 .btn-quantity {
@@ -28,6 +36,9 @@
   }
 }
 
+.btn-quantity:active {
+  background-color: #717171;
+}
 /* Form elements */
 
 input, select {

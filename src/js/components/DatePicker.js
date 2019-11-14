@@ -1,14 +1,17 @@
-import { settings, select } from '../settings.js';
+import { settings, select, classNames } from '../settings.js';
 import { utils } from '../utils.js';
 import BaseWidget from './BaseWidget.js';
+//import Booking from './Booking.js';
 
 export class DatePicker extends BaseWidget {
-  constructor(wrapper) {
+  constructor(wrapper, tables) {
     super(wrapper, utils.dateToStr(new Date()));
 
     const thisWidget = this;
     thisWidget.dom.input = thisWidget.dom.wrapper.querySelector(select.widgets.datePicker.input);
     thisWidget.initPlugin();
+    thisWidget.dom.tables = tables;
+    //console.log(thisWidget.dom.tables);
   }
 
   initPlugin() {
@@ -20,6 +23,11 @@ export class DatePicker extends BaseWidget {
       defaultDate: thisWidget.minDate,
       minDate: thisWidget.minDate,
       maxDate: thisWidget.maxDate,
+      onChange: function(){
+        for (let table of thisWidget.dom.tables){
+          table.classList.remove(classNames.booking.tableClicked);
+        }
+      },
       disable: [
         function(date) {
           return (date.getDay() === 1);
