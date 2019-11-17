@@ -69,13 +69,14 @@ class Booking {
         //console.log(eventsRepeat);
         thisBooking.parseData(bookings, eventsCurrent, eventsRepeat);
       });
+    console.log('wykonałam się');
   }
 
   parseData(bookings, eventsCurrent, eventsRepeat) {
     const thisBooking = this;
 
     thisBooking.booked = {};
-
+    console.log(bookings);
     for (let item of bookings) {
       console.log (item);
       thisBooking.makeBooked(item.date, item.hour, item.duration, item.table);
@@ -121,7 +122,6 @@ class Booking {
       thisBooking.booked[date][hourBlock].push(table);
 
     }
-
   }
 
   updateDOM() {
@@ -147,7 +147,7 @@ class Booking {
       if (!isNaN(tableId)) {
         tableId = parseInt(tableId);
       }
-      console.log(thisBooking.booked);
+      //console.log(thisBooking.booked);
 
       if (
         !allAvailable &&
@@ -233,7 +233,6 @@ class Booking {
 
     thisBooking.dom.formSubmit.addEventListener('click', function() {
       event.preventDefault();
-      //console.log('submit clicked');
       thisBooking.sendBooking();
     });
   }
@@ -244,7 +243,7 @@ class Booking {
     const url = settings.db.url + '/' + settings.db.booking;
 
     const payload = {
-      date: thisBooking.dom.datePicker.value,
+      date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
       address: thisBooking.address.value,
       phone: thisBooking.phone.value,
@@ -253,13 +252,12 @@ class Booking {
       ppl: parseInt(thisBooking.dom.people.value),
       table: thisBooking.selectTable,
     };
-
+    console.log(thisBooking.datePicker.value);
     for (let starter of thisBooking.dom.starters) {
       if (starter.checked) { 
         payload.starters.push(starter.value);
       }
     }
-
     const options = {
       method: 'POST',
       headers: {
@@ -273,6 +271,8 @@ class Booking {
         return response.json();
       }).then(function(parsedResponse) {
         console.log('parsedResponse', parsedResponse);
+        thisBooking.makeBooked(parsedResponse.date, parsedResponse.hour, parsedResponse.duration,parsedResponse.table);
+        thisBooking.updateDOM();
       });
 
   }
