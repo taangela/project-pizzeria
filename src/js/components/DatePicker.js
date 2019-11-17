@@ -11,7 +11,7 @@ export class DatePicker extends BaseWidget {
     thisWidget.dom.input = thisWidget.dom.wrapper.querySelector(select.widgets.datePicker.input);
     thisWidget.initPlugin();
     thisWidget.dom.tables = tables;
-    console.log(thisWidget.dom.input);
+    //console.log(thisWidget.dom.input);
   }
 
   initPlugin() {
@@ -27,6 +27,9 @@ export class DatePicker extends BaseWidget {
         for (let table of thisWidget.dom.tables){
           table.classList.remove(classNames.booking.tableClicked);
         }
+        thisWidget.value = thisWidget.dom.input.value;
+        //console.log(thisWidget.value);
+      
       },
       disable: [
         function(date) {

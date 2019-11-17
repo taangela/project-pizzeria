@@ -15,7 +15,6 @@ class BaseWidget {
 
   set value(value) {
     const thisWidget = this;
-
     const newValue = thisWidget.parseValue(value);
 
     if (newValue != thisWidget.correctValue && thisWidget.isValid(newValue)) {
@@ -26,10 +25,10 @@ class BaseWidget {
     thisWidget.renderValue();
   }
 
-  setValue(value) {
+  /* setValue(value) {
     const thisWidget = this;
     thisWidget.value = value;
-  }
+  */
 
   parseValue(value) {
     return parseInt(value);
