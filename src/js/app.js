@@ -10,14 +10,19 @@ const app = {
 
     thisApp.pages = document.querySelector(select.containerOf.pages).children;
     thisApp.navLinks = document.querySelectorAll(select.nav.links);
+    thisApp.mainLinks = document.querySelectorAll('.nav a');
+    thisApp.mainNav = document.querySelector('.main-nav');
+    thisApp.logoLink = document.querySelector('.logo a');
 
     const idFromHash = window.location.hash.replace('#/', '');
 
     let pageMatchingHash = thisApp.pages[0].id;
-
+   
     for (let page of thisApp.pages) {
       if (page.id == idFromHash) {
         pageMatchingHash = page.id;
+        //thisApp.mainNav.classList.add('active');
+        //console.log('dupa');
         break;
       }
     }
@@ -28,17 +33,38 @@ const app = {
       link.addEventListener('click', function() {
         const clickedElement = this;
         event.preventDefault();
-
-        /*get page id from href attribute*/
         const id = clickedElement.getAttribute('href').replace('#', '');
+        thisApp.activatePage(id);
+        window.location.hash = '#/' + id;
+      
+      });
+    }
 
-        /* run thisApp.activatePage with that id*/
+    for (let link of thisApp.mainLinks) {
+      link.addEventListener('click', function(event) {
+        const clickedElement = this;
+        event.preventDefault();
+        const id = clickedElement.getAttribute('href').replace('#', '');
         thisApp.activatePage(id);
 
-        /*change URL hash*/
+        thisApp.mainNav.classList.add('active');
         window.location.hash = '#/' + id;
       });
     }
+
+    thisApp.logoLink.addEventListener('click', function(event) {
+      event.preventDefault();
+      const clickedElement = this;
+
+      const id = clickedElement.getAttribute('href').replace('#', '');
+
+      thisApp.activatePage(id);
+
+      thisApp.mainNav.classList.remove('active');
+
+      window.location.hash = '#/' + id;
+    });
+
 
   },
 
@@ -57,6 +83,7 @@ const app = {
       );
     }
   },
+
 
 
   initMenu: function() {

@@ -36,10 +36,12 @@ class Cart {
 
     thisCart.dom.toggleTrigger.addEventListener('click', function() {
       thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
+
     });
 
     thisCart.dom.productList.addEventListener('updated', function() {
-      thisCart.update(); //nasłuchujemy na liści produktów (lista produktów ma produkty, w których są widgety liczby sztuk)
+      thisCart.update();
+      console.log('klick'); //nasłuchujemy na liści produktów (lista produktów ma produkty, w których są widgety liczby sztuk)
     }); //to właśnie widget liczby sztuk generuje event
     //dzięki bubbles słyszymy go na tej liście i możemy wykonać metodę update
     thisCart.dom.productList.addEventListener('remove', function() {
@@ -114,7 +116,6 @@ class Cart {
     for (let product of thisCart.products) {
       thisCart.subtotalPrice += product.price;
       thisCart.totalNumber += product.amount;
-      console.log('działam');
     }
     if (thisCart.subtotalPrice == 0) {
       thisCart.deliveryFee = 0;

@@ -3,15 +3,24 @@
   background: $color-dark;
   color: $color-light;
 
+
   &__wrapper {
     position: relative;
   }
 
 }
 
+.header a {
+  color: $color-light;
+}
+
 .logo {
   display: inline-block;
   line-height: 1;
+
+  a:hover {
+    text-decoration: none;
+  }
 
   &__title {
     margin: 0 0 $base-size 0;
@@ -39,6 +48,7 @@
   position: absolute;
   @include flex(row, flex-start, flex-start);
   bottom: ($base-size * -8);
+  display: none;
 
   a {
     @extend .h2;
@@ -55,6 +65,10 @@
       background: lighten($color-dark, 75%);
     }
 
+  }
+
+  &.active {
+    display: flex;
   }
 
 }

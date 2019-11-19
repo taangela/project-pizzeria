@@ -6,12 +6,12 @@ import BaseWidget from './BaseWidget.js';
 export class DatePicker extends BaseWidget {
   constructor(wrapper, tables) {
     super(wrapper, utils.dateToStr(new Date()));
+    console.log('haha');
 
     const thisWidget = this;
     thisWidget.dom.input = thisWidget.dom.wrapper.querySelector(select.widgets.datePicker.input);
     thisWidget.initPlugin();
     thisWidget.dom.tables = tables;
-    //console.log(thisWidget.dom.input);
   }
 
   initPlugin() {
@@ -28,8 +28,7 @@ export class DatePicker extends BaseWidget {
           table.classList.remove(classNames.booking.tableClicked);
         }
         thisWidget.value = thisWidget.dom.input.value;
-        //console.log(thisWidget.value);
-      
+        console.log('dupa',thisWidget.value);
       },
       disable: [
         function(date) {
@@ -41,7 +40,6 @@ export class DatePicker extends BaseWidget {
         'firstDayOfWeek': 1
       },
     };
-
     flatpickr(thisWidget.dom.input, options); // eslint-disable-line
   }
 
