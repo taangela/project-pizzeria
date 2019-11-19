@@ -6,7 +6,6 @@ import BaseWidget from './BaseWidget.js';
 export class DatePicker extends BaseWidget {
   constructor(wrapper, tables) {
     super(wrapper, utils.dateToStr(new Date()));
-    console.log('haha');
 
     const thisWidget = this;
     thisWidget.dom.input = thisWidget.dom.wrapper.querySelector(select.widgets.datePicker.input);
@@ -28,7 +27,6 @@ export class DatePicker extends BaseWidget {
           table.classList.remove(classNames.booking.tableClicked);
         }
         thisWidget.value = thisWidget.dom.input.value;
-        console.log('dupa',thisWidget.value);
       },
       disable: [
         function(date) {

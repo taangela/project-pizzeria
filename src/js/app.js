@@ -17,12 +17,11 @@ const app = {
     const idFromHash = window.location.hash.replace('#/', '');
 
     let pageMatchingHash = thisApp.pages[0].id;
-   
+
     for (let page of thisApp.pages) {
       if (page.id == idFromHash) {
         pageMatchingHash = page.id;
         //thisApp.mainNav.classList.add('active');
-        //console.log('dupa');
         break;
       }
     }
@@ -36,7 +35,7 @@ const app = {
         const id = clickedElement.getAttribute('href').replace('#', '');
         thisApp.activatePage(id);
         window.location.hash = '#/' + id;
-      
+
       });
     }
 
@@ -123,7 +122,7 @@ const app = {
     });
   },
 
-  initBooking: function(){
+  initBooking: function() {
     const thisApp = this;
     const bookingWidget = document.querySelector(select.containerOf.booking);
 
