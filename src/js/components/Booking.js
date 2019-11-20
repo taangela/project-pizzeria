@@ -69,7 +69,6 @@ class Booking {
         //console.log(eventsRepeat);
         thisBooking.parseData(bookings, eventsCurrent, eventsRepeat);
       });
-    console.log('wykonałam się');
   }
 
   parseData(bookings, eventsCurrent, eventsRepeat) {
@@ -78,7 +77,6 @@ class Booking {
     thisBooking.booked = {};
     console.log(bookings);
     for (let item of bookings) {
-      console.log (item);
       thisBooking.makeBooked(item.date, item.hour, item.duration, item.table);
       console.log(thisBooking.booked);
     }
@@ -119,8 +117,13 @@ class Booking {
         thisBooking.booked[date][hourBlock] = [];
       }
 
-      thisBooking.booked[date][hourBlock].push(table);
-
+      if (typeof table == 'object') {
+        for (let t of table) {
+          thisBooking.booked[date][hourBlock].push(t);
+        }
+      } else {
+        thisBooking.booked[date][hourBlock].push(table);
+      }
     }
   }
 
@@ -129,7 +132,7 @@ class Booking {
 
     //console.log('data',thisBooking.datePicker.value);
     thisBooking.date = thisBooking.datePicker.value;
-    console.log(thisBooking.date);
+    //console.log(thisBooking.date);
     thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
 
     let allAvailable = false;
@@ -146,18 +149,17 @@ class Booking {
       if (!isNaN(tableId)) {
         tableId = parseInt(tableId);
       }
-      //console.log(thisBooking.booked);
 
       if (
         !allAvailable &&
-        thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId)
+
+        thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId) //tylko, że ja mam w tablicy
       ) {
         table.classList.remove(classNames.booking.tableClicked);
         table.classList.add(classNames.booking.tableBooked);
       } else {
         table.classList.remove(classNames.booking.tableBooked);
       }
-      //console.log('teraz');
     }
   }
 
@@ -202,11 +204,26 @@ class Booking {
 
     for (let table of thisBooking.dom.tables) {
       table.addEventListener('click', function() {
+
         if (!table.classList.contains(classNames.booking.tableBooked)) { //jeśli obiekt table nie zawiera klasy booked
           let tableId = table.getAttribute(settings.booking.tableIdAttribute);
           if (!isNaN(tableId)) {
             tableId = parseInt(tableId);
           }
+          table.classList.toggle(classNames.booking.tableClicked);
+          thisBooking.selectTable = tableId;
+        }
+
+      });
+    }
+    /*for (let table of thisBooking.dom.tables) {
+      table.addEventListener('click', function() {
+        if (!table.classList.contains(classNames.booking.tableBooked)) { //jeśli obiekt table nie zawiera klasy booked
+          let tableId = table.getAttribute(settings.booking.tableIdAttribute);
+          if (!isNaN(tableId)) {
+            tableId = parseInt(tableId);
+          }
+
 
           for (let table of thisBooking.dom.tables) {
             if (table.classList.contains(classNames.booking.tableClicked)) {
@@ -222,7 +239,8 @@ class Booking {
           }
         } 
       });
-    }
+    }*/
+
   }
 
 
@@ -249,14 +267,28 @@ class Booking {
       starters: [],
       duration: parseInt(thisBooking.dom.duration.value),
       ppl: parseInt(thisBooking.dom.people.value),
-      table: thisBooking.selectTable,
+      table: []
+      //table: thisBooking.selectTable,
     };
     console.log(thisBooking.datePicker.value);
     for (let starter of thisBooking.dom.starters) {
-      if (starter.checked) { 
+      if (starter.checked) {
         payload.starters.push(starter.value);
       }
     }
+
+    for (let table of thisBooking.dom.tables) {
+      if (table.classList.contains(classNames.booking.tableClicked)) {
+        thisBooking.tableId = table.getAttribute(settings.booking.tableIdAttribute);
+        if (!isNaN(thisBooking.tableId)) {
+          thisBooking.tableId = parseInt(thisBooking.tableId);
+        }
+        payload.table.push(thisBooking.tableId);
+      }
+    }
+
+    //console.log(thisBooking.selectTable);
+
     const options = {
       method: 'POST',
       headers: {
@@ -270,13 +302,10 @@ class Booking {
         return response.json();
       }).then(function(parsedResponse) {
         console.log('parsedResponse', parsedResponse);
-        thisBooking.makeBooked(parsedResponse.date, parsedResponse.hour, parsedResponse.duration,parsedResponse.table);
+        thisBooking.makeBooked(parsedResponse.date, parsedResponse.hour, parsedResponse.duration, parsedResponse.table);
         thisBooking.updateDOM();
       });
-
   }
-
-
 }
 
 
