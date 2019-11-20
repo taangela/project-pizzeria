@@ -130,7 +130,7 @@ class Booking {
   updateDOM() {
     const thisBooking = this;
 
-    //console.log('data',thisBooking.datePicker.value);
+    console.log('data',thisBooking.datePicker.value);
     thisBooking.date = thisBooking.datePicker.value;
     //console.log(thisBooking.date);
     thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
